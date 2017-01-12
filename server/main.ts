@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 
+import { loadParties } from './imports/fixtures/parties';
+
 Meteor.startup(() => {
 
-    console.log('Here we go!');
+    loadParties();
 });

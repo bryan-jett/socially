@@ -14,7 +14,7 @@
   "exclude": [
     "node_modules"
   ],
-  "compileOnSave": true,
+  "compileOnSave": false,
   "angularCompilerOptions": {
     "genDir": "aot",
     "skipMetadataEmit": true
