@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
 
 import template from './party-details.component.html';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, CanActivate} from "@angular/router";
 import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/map';
@@ -13,7 +13,8 @@ import {Party} from "../../../../both/models/party.model";
     template
 })
 
-export class PartyDetailsComponent implements OnInit, OnDestroy {
+export class PartyDetailsComponent implements OnInit, OnDestroy, CanActivate {
+
     partyId: string;
     paramsSub: Subscription;
     party: Party;
@@ -33,6 +34,11 @@ export class PartyDetailsComponent implements OnInit, OnDestroy {
 
     saveParty() {
 
+        if (!Meteor.userId()) {
+            alert('Please log in to change this party');
+            return;
+        }
+
         Parties.update(this.party._id, {
            $set: {
                name: this.party.name,
@@ -44,5 +50,10 @@ export class PartyDetailsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.paramsSub.unsubscribe();
+    }
+
+    canActivate() {
+        const party = Parties.findOne(this.partyId);
+        return (party && party.owner == Meteor.userId());
     }
 }
