@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 
 import { loadParties } from './imports/fixtures/parties';
 
-Meteor.startup(() => {
+import './imports/publications/parties'
 
+Meteor.startup(() => {
     loadParties();
 });
